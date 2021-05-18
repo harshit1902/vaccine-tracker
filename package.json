@@ -1,0 +1,17 @@
+{
+  "name": "vaccine-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "506.js",
+  "dependencies": {
+    "nodemailer": "^6.6.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
