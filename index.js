@@ -1,7 +1,6 @@
 const request = require("request-promise");
 const nodemailer = require("nodemailer");
-
-// 512 for alwar
+require("dotenv").config();
 
 function runCron(districtId) {
   setInterval(async () => {
@@ -10,38 +9,42 @@ function runCron(districtId) {
     let month = d.getMonth() + 1;
     let year = d.getFullYear();
     date = `${date}-0${month}-${year}`;
-    console.log(
-      "Updated for Date ",
-      date,
-      " today at ",
-      d.toLocaleTimeString()
-    );
-    let res = await request({
-      uri: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id=${districtId}&date=${date}`,
-    });
-    let data = JSON.parse(res);
-    let centers = data.centers;
-    centers.forEach((center) => {
-      center.sessions.forEach((session) => {
-        if (session.available_capacity > 0) {
-          sendEmail(
-            center.name,
-            center.address,
-            center.state_name,
-            center.district_name,
-            center.pincode,
-            center.from,
-            center.to,
-            center.fee_type,
-            session.available_capacity,
-            session.min_age_limit,
-            session.vaccine,
-            session.available_capacity_dose1,
-            session.available_capacity_dose2
-          );
-        }
+    try {
+      let res = await request({
+        uri: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id=${districtId}&date=${date}`,
       });
-    });
+      let data = JSON.parse(res);
+      let centers = data.centers;
+      centers.forEach((center) => {
+        center.sessions.forEach((session) => {
+          if (session.available_capacity > 0) {
+            sendEmail(
+              center.name,
+              center.address,
+              center.state_name,
+              center.district_name,
+              center.pincode,
+              center.from,
+              center.to,
+              center.fee_type,
+              session.available_capacity,
+              session.min_age_limit,
+              session.vaccine,
+              session.available_capacity_dose1,
+              session.available_capacity_dose2
+            );
+          }
+        });
+      });
+      console.log(
+        "Updated for Date ",
+        date,
+        " today at ",
+        d.toLocaleTimeString()
+      );
+    } catch (e) {
+      console.log("ERROR", e);
+    }
   }, 60000);
 }
 
@@ -60,10 +63,10 @@ async function sendEmail(
   dose1,
   dose2
 ) {
-  const senderEmail = "";
-  const senderPassword = "";
-  const senderName = "";
-  const receiverEmail = "";
+  const senderEmail = process.env.SENDERS_EMAIL;
+  const senderPassword = process.env.SENDERS_PASSWORD;
+  const senderName = process.env.SENDERS_NAME;
+  const receiverEmail = process.env.RECEIVERS_EMAIL;
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -112,5 +115,8 @@ async function sendEmail(
     d.toLocaleTimeString()
   );
 }
-
-runCron(512);
+// change the district ID here
+// 505 for Jaipur I
+// 506 for Jaipur II
+// 512 for Alwar
+runCron(505);

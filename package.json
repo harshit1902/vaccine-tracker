@@ -2,8 +2,9 @@
   "name": "vaccine-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "506.js",
+  "main": "index.js",
   "dependencies": {
+    "dotenv": "^9.0.2",
     "nodemailer": "^6.6.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
