@@ -11,7 +11,7 @@ function runCron(districtId) {
     date = `${date}-0${month}-${year}`;
     try {
       let res = await request({
-        uri: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id=${districtId}&date=${date}`,
+        uri: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${districtId}&date=${date}`,
       });
       let data = JSON.parse(res);
       let centers = data.centers;
@@ -80,32 +80,32 @@ async function sendEmail(
     to: receiverEmail,
     subject: "Vaccine available",
     html: `
-    <h1>Vaccine available</h1>
-
-    <h3 style="display: inline;">Name</h3> : <p style="display: inline;">${name}</p><br/>
-
-    <h3 style="display: inline;">Address</h3> : <p style="display: inline;">${address}</p><br/>
-    
-    <h3 style="display: inline;">State</h3> : <p style="display: inline;">${state}</p><br/>
-    
-    <h3 style="display: inline;">District</h3> : <p style="display: inline;">${district}</p><br/>
-
-    <h3 style="display: inline;">Pincode</h3> : <p style="display: inline;">${pincode}</p><br/>
-   
-    <h3 style="display: inline;">Time</h3> : <p style="display: inline;">${from}</p><strong> to </strong>
-    <p style="display: inline;">${to}</p><br/>
-
-    <h3 style="display: inline;">Fees</h3> : <p style="display: inline;">${fees}</p><br/>
-    
-    <h3 style="display: inline;">Min Age</h3> : <p style="display: inline;">${minAge}</p><br/>
-    
-    <h3 style="display: inline;">Total Dose</h3> : <p style="display: inline;">${available}</p><br/>
-
-    <h3 style="display: inline;">vaccine</h3> : <p style="display: inline;">${vaccine}</p><br/>
-    
-    <h3 style="display: inline;">Dose1</h3> : <p style="display: inline;">${dose1}</p><br/>
-
-    <h3 style="display: inline;">Dose2</h3> : <p style="display: inline;">${dose2}</p><br/>`,
+      <h1>Vaccine available</h1>
+  
+      <h3 style="display: inline;">Name</h3> : <p style="display: inline;">${name}</p><br/>
+  
+      <h3 style="display: inline;">Address</h3> : <p style="display: inline;">${address}</p><br/>
+      
+      <h3 style="display: inline;">State</h3> : <p style="display: inline;">${state}</p><br/>
+      
+      <h3 style="display: inline;">District</h3> : <p style="display: inline;">${district}</p><br/>
+  
+      <h3 style="display: inline;">Pincode</h3> : <p style="display: inline;">${pincode}</p><br/>
+     
+      <h3 style="display: inline;">Time</h3> : <p style="display: inline;">${from}</p><strong> to </strong>
+      <p style="display: inline;">${to}</p><br/>
+  
+      <h3 style="display: inline;">Fees</h3> : <p style="display: inline;">${fees}</p><br/>
+      
+      <h3 style="display: inline;">Min Age</h3> : <p style="display: inline;">${minAge}</p><br/>
+      
+      <h3 style="display: inline;">Total Dose</h3> : <p style="display: inline;">${available}</p><br/>
+  
+      <h3 style="display: inline;">vaccine</h3> : <p style="display: inline;">${vaccine}</p><br/>
+      
+      <h3 style="display: inline;">Dose1</h3> : <p style="display: inline;">${dose1}</p><br/>
+  
+      <h3 style="display: inline;">Dose2</h3> : <p style="display: inline;">${dose2}</p><br/>`,
   });
   let d = new Date();
   console.log(
